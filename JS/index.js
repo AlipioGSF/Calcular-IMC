@@ -33,4 +33,23 @@ function meuIMC(){
     }
     form.addEventListener('submit', calcIMC)
 }
+
+function mostrarInfo(){
+    const sobreimc = document.querySelector(".sobreimc");
+    const iconI = document.querySelector(".gg-info");
+    const iconX = document.querySelector(".gg-close-o");
+
+
+    if(sobreimc.style.display == "none"){
+        sobreimc.style.display = "block";
+        iconX.style.display = "block";
+        iconI.style.display = "none";
+    }else{
+        sobreimc.style.display = "none";
+        iconX.style.display = "none";
+        iconI.style.display = "block";
+
+    }
+}
+
 meuIMC();
