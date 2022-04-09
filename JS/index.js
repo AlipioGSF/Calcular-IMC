@@ -1,55 +1,53 @@
-function meuIMC(){
-    const form = document.querySelector(".form");
-    const resultado = document.querySelector(".mostrarIMC");
-    const dados = [];
-    function calcIMC(evento){
-        evento.preventDefault();
-        const peso = document.querySelector(".peso");
-        const altura = document.querySelector(".altura");
-        const imc = Number(peso.value)/Number(altura.value ** 2);
-        dados.push({
-            peso: peso.value,
-            altura: altura.value,
-            imc: Number(peso.value)/Number(altura.value ** 2)
-        });
+const form = document.querySelector(".form");
+const infoIMC = document.querySelector("#bInfo");
 
-        if(!(peso.value && altura.value)){
-            alert("Preencha todos os campos");
-        }
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    setResultado(calcIMC());
+});
 
-        if(altura.value > 3){
-            altura.value = altura.value/100;
-        }
-        
-        if(altura.value !== Number || peso.value !== Number){
-            resultado.innerHTML = "Não use (,), use (.)"
-        }
-
-        if(altura.value > 0 && peso.value > 0){
-            resultado.innerHTML = `${(Number(peso.value)/Number(altura.value ** 2)).toFixed(1)}`;
-        }
-        
-        console.log(dados);
-    }
-    form.addEventListener('submit', calcIMC)
-}
-
-function mostrarInfo(){
+// ICONE E FUNCIONAMENTO DA INFORMAÇÃO
+let infob = 1;
+infoIMC.addEventListener('click', function(e) {
+    e.preventDefault();
     const sobreimc = document.querySelector(".sobreimc");
-    const iconI = document.querySelector(".gg-info");
-    const iconX = document.querySelector(".gg-close-o");
-
-
-    if(sobreimc.style.display == "none"){
+    const icon = document.querySelector("#icone");
+    if(infob == 1){
         sobreimc.style.display = "block";
-        iconX.style.display = "block";
-        iconI.style.display = "none";
+        icon.classList.remove("gg-info");
+        icon.classList.add("gg-close-o");
+        infob = 0;
     }else{
         sobreimc.style.display = "none";
-        iconX.style.display = "none";
-        iconI.style.display = "block";
+        icon.classList.remove("gg-close-o");
+        icon.classList.add("gg-info");
+        infob = 1;
+    }    
+});
 
+//  ENVIA OQ DEVE SER MOSTRADO COMO RESULTADO(MENSAGEM)
+function setResultado (msg){
+    const IMC = document.querySelector(".mostrarIMC");
+    if(msg === NaN){
+        msg = "Digete os Dados";
     }
+    IMC.innerHTML = msg;
 }
 
-meuIMC();
+// FAZ OS CÁLCULOS E DEFINE OQ SERA ENVIADO
+function calcIMC(){
+    const dPeso = document.querySelector(".peso");
+    const dAltura = document.querySelector(".altura");
+    let peso = Number(parseFloat((dPeso.value).replace(',','.')));
+    let altura = Number(parseFloat((dAltura.value).replace(',','.')));
+    let imc = (peso/(altura*altura))*10000;
+    if(!peso || !altura){
+        return "Preencha os campos";
+    }
+    if(altura <= 0 || peso <= 0){
+        const msg = "Digite dados válidos";
+        return msg;
+    }else{ 
+        return imc.toFixed(2);
+    }
+}
