@@ -165,6 +165,14 @@ button:active{
     }
 
 }
+@media (max-width:1600px){
+    main{
+        height: 85vh;
+        width: 40vw;
+    }
+}
+
+
 @media (min-height:900px) {
     li{
         font-size: 0.75em;
